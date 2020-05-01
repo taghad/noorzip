@@ -8,23 +8,39 @@ import (
 )
 func unzip(name string) {
 	nameWithType := name + ".zip"
-	out, err := exec.Command("unzip", nameWithType, "-d", name).Output()
-}
-func execute() {
-
-	out, err := exec.Command("ls", "/").Output()
-
-	if err != nil {
-		fmt.Printf("%s", err)
+	//unzip
+	_,errUnzip := exec.Command("unzip", nameWithType, "-d", name).Output()
+	if errUnzip != nil {
+		fmt.Printf("%s", errUnzip)
 	}
 
-	fmt.Println("Command Successfully Executed")
+	//ls and recursive
+	outLs, errLs := exec.Command("ls", name).Output()
+	if errLs != nil {
+		fmt.Printf("%s", errLs)
+	}
+	s := strings.Split(string(outLs),"\n")
+	for i:=0 ; i < len(s)-1 ; i++ {
+		if len(s[i]) >= 4 {
+			if s[i][len(s[i])-4:] == ".zip" {
+				unzip(name + "/" + s[i][:len(s[i])-4])
+			}
+		}
+	}
 
-	s := strings.Split(string(out),"\n")
-	output := string(out[:])
+	//remove zips
+	_, errRm := exec.Command("rm", nameWithType).Output()
+	if errRm != nil {
+		fmt.Printf("%s", errRm)
+	}
 
-	fmt.Println(output)
-	fmt.Println(s)
+
+}
+func execute() {
+	address := ""
+	fmt.Scanf("%s",&address)
+	unzip(address[:len(address)-4])
+
 }
 
 func main() {

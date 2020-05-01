@@ -6,8 +6,11 @@ import (
 	"runtime"
 	"strings"
 )
+
 func unzip(name string) {
+
 	nameWithType := name + ".zip"
+
 	//unzip
 	_,errUnzip := exec.Command("unzip", nameWithType, "-d", name).Output()
 	if errUnzip != nil {
@@ -19,7 +22,9 @@ func unzip(name string) {
 	if errLs != nil {
 		fmt.Printf("%s", errLs)
 	}
+
 	s := strings.Split(string(outLs),"\n")
+
 	for i:=0 ; i < len(s)-1 ; i++ {
 		if len(s[i]) >= 4 {
 			if s[i][len(s[i])-4:] == ".zip" {
@@ -34,9 +39,10 @@ func unzip(name string) {
 		fmt.Printf("%s", errRm)
 	}
 
-
 }
+
 func execute() {
+
 	address := ""
 	fmt.Println("Enter zip address:")
 	fmt.Scanf("%s",&address)
@@ -45,9 +51,11 @@ func execute() {
 }
 
 func main() {
+
 	if runtime.GOOS == "windows" {
 		fmt.Println("Can't Execute this on a windows machine")
 	} else {
 		execute()
 	}
+
 }

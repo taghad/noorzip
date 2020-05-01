@@ -38,6 +38,7 @@ func unzip(name string) {
 }
 func execute() {
 	address := ""
+	fmt.Println("Enter zip address:")
 	fmt.Scanf("%s",&address)
 	unzip(address[:len(address)-4])
 
